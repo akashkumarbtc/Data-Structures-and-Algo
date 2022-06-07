@@ -21,6 +21,12 @@ Output: [-1,-1]
 
 class Solution(object):
     def searchRange(self, nums, target):
+
+        # Edge cases
+        if len(nums) == 0: return [-1, -1]
+        if len(nums) == 1: return ([0, 0] if nums[0] == target else [-1, -1])
+
+        
         left = self.binarySearch(nums, target, True)    # Search for left most target
         right = self.binarySearch(nums, target, False)  # Search for right most target
         return [left, right]
