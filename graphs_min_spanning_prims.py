@@ -1,10 +1,10 @@
 # -----------------------------------------------------------------------------------------------------------------------
 
-# Mininum Spanning tree - Kruskal Algorithm
-#   O(e*log(e))
+# Mininum Spanning tree - Prims Algorithm
+#   O(e*log(v))
 # -----------------------------------------------------------------------------------------------------------------------
 
-
+import heapq
 
 class GenGraph:
     def __init__(self, num_nodes, edges, directed = False, weighted = False):
@@ -40,45 +40,37 @@ class GenGraph:
         return self.__repr__()
 
 
-
-
-
-def find(parent, vtx):
-    if vtx != parent[vtx]:
-        parent, parent[vtx] = find(parent, parent[vtx])
-    return parent, parent[vtx]
-
-def union_set(parent, rank, v_x, v_y):
-    parent, rootx = find(parent, v_x)
-    parent, rooty = find(parent, v_y)
-
-    if rootx == rooty: return
-
-    if rank[rootx] > rank[rooty]: 
-        parent[rooty] = rootx
-    else: 
-        parent[rootx] = rooty
-        if rank[rootx] == rank[rooty]:
-            rank[rooty] += 1
-
-
-
-def kruskal(graph, edges):
-    parent = [i for i in range(len(graph.data))]
-    rank = [0] * len(graph.data)
+def prims(graph, start):
+    parent = [-1] * len(graph.data)
+    key = [float('inf')] * len(graph.data)
+    inMST = [False]* len(graph.data)
     result = []
+    key[start] = 0
 
-    edges.sort(key = lambda x:x[2])
-    
-    for u, v, w in edges:
-        parent, root_u = find(parent, u)
-        parent, root_v = find(parent, v)
+    heap = []
 
-        if root_u != root_v:
-            result.append((u,v,w))
-            union_set(parent, rank,root_u,  root_v)
+    heapq.heappush(heap, (0, start))
+
+    while len(heap):
+        key_v, vtx = heapq.heappop(heap)
+
+        if parent[vtx] != -1  and inMST[vtx] == False:
+            result.append((parent[vtx], vtx, key[vtx]))
+
+        inMST[vtx] = True
+
+        for v,w in graph.data[vtx]:
+            if inMST[v] == False and key[v] > w:
+                parent[v] = vtx
+                key[v] = w
+                heapq.heappush(heap, (key[v], v))
+
 
     return result
+
+
+
+
 
 
 
@@ -87,4 +79,5 @@ edges3 = [(0, 1, 2),(0, 3, 7), (0, 5, 2), (1, 2, 1), (1, 3, 4), (1, 4, 3), (1, 5
 graph3 = GenGraph(num_nodes3, edges3, weighted = True)
 print(graph3)
 
-print(kruskal(graph3, edges3))
+print(prims(graph3, 0))
+# print(kruskal(graph3, edges3))
