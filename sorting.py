@@ -1,4 +1,4 @@
-a = ['b', 'a', 'd', 'c']
+a = [3,4,3,4,4,5,12,7,8]
 #bubble sort
 # for i in range(len(a) - 1):
 #     for j in range(len(a) - i - 1):
@@ -12,15 +12,15 @@ a = ['b', 'a', 'd', 'c']
 #  3,4,3,4,4,5,12,7,8
 def partition(arr, low, high):
 
-    i = low -1
+    i = low
     pivot = arr[high]
 
     for j in range(low, high):
         if arr[j] <= pivot:
-            i += 1
             arr[i], arr[j] = arr[j], arr[i]
-    arr[i+ 1], arr[high] = arr[high], arr[i+1]
-    return (i+1)
+            i += 1
+    arr[i], arr[high] = arr[high], arr[i]
+    return (i)
 
 
 def quicksort(arr, low, high):
@@ -44,7 +44,7 @@ print(a)
 #     merge_sort(left_half)
 #     merge_sort(right_half)
 
-#     i,j,k = 0, 0 , 0
+#     i,j,k = 0, 0, 0
 
 #     while i < len(left_half) and j < len(right_half):
 #         if left_half[i] < right_half[j]:

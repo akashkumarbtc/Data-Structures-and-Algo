@@ -53,6 +53,21 @@ def search(value, root):
             search(value, root.rightChild)
 
 
+def level_order_traversal(rootNode):
+    if not rootNode:
+        return
+    queue = []
+    queue.append(rootNode)
+
+    while  len(queue):
+        root = queue.pop(0)
+        print(root.value)
+        if root.leftChild is not None:
+            queue.append(root.leftChild)
+        if root.rightChild is not None:
+            queue.append(root.rightChild)
+
+
 bst = BST()
 insert(70, bst)
 insert(50 , bst)
@@ -63,5 +78,6 @@ insert(80, bst)
 insert(100, bst)
 insert(20, bst)
 insert(40, bst)
-print(search(40, bst))
+# print(search(40, bst))
 # inorder_traversal(bst)
+level_order_traversal(bst)
